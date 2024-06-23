@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FITYOGI - Brahmacharya and Desi Fitness</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+    </style>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&display=swap");
+    </style>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..800&family=Baloo+Bhaijaan+2:wght@400..800&family=Bebas+Neue&display=swap");
+    </style>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Anton&family=Baloo+2:wght@400..800&family=Baloo+Bhaijaan+2:wght@400..800&family=Bebas+Neue&display=swap");
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+      }
+      .main {
+        padding: 0 25px;
+        background-color: #f0f6f8;
+      }
+      .main h1 {
+        font-family: "Anton", sans-serif;
+        padding-top: 40px;
+      }
+      .content-center {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        width: 94%;
+        background-color: white;
+        box-shadow: 0 0 20px grey;
+        margin-top: 40px;
+        border-radius: 14px;
+        font-family: "Poppins", sans-serif;
+        padding: 25px 30px;
+      }
+      .content ul {
+        list-style-position: inside;
+      }
+
+      .footer {
+        position: relative;
+        background-color: rgb(30, 30, 30);
+        height: 620px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-family: "Poppins", sans-serif;
+      }
+      .foot-itmes {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 80px;
+      }
+      .img-fott-elem img {
+        width: 240px;
+      }
+      .foot-ths {
+        color: white;
+        display: flex;
+        gap: 40px;
+      }
+      .foot-th-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .foot-th-1 p {
+        font-weight: 300;
+      }
+      .img-fott-elem p {
+        color: #646464;
+      }
+      .socials {
+        display: flex;
+        gap: 15px;
+      }
+      .socials span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        border: 1px solid white;
+        transition: all 0.3s ease;
+      }
+      .socials span i {
+        font-size: 28px;
+      }
+      .socials span:hover {
+        background-color: white;
+        border: 1px solid rgb(18, 21, 26);
+      }
+      .socials span:hover i {
+        color: black;
+      }
+      .foot-th-1 form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
+      .foot-th-1 form input:nth-child(1) {
+        padding: 18px;
+        width: 200px;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background: white;
+      }
+      .foot-th-1 form input:nth-child(2) {
+        padding: 18px;
+        width: 200px;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background: white;
+      }
+      .foot-th-1 form input:nth-child(3) {
+        padding: 16px;
+        width: 200px;
+        border-radius: 25px;
+        outline: none;
+        border: none;
+        background: rgb(93, 78, 255);
+        color: white;
+        font-weight: 700;
+        font-size: 15px;
+        cursor: pointer;
+      }
+      .foot-line {
+        width: 92vw;
+        height: 80px;
+        border-bottom: 1px solid white;
+      }
+      .copyright {
+        margin-top: 30px;
+        color: white;
+        font-weight: 300;
+      }
+      .policy {
+        color: white;
+        padding-bottom: 20px;
+      }
+      .policy a {
+        text-decoration: none;
+        color: white;
+        font-weight: 300;
+        margin-top: 35px;
+      }
+      footer::before {
+        content: "";
+        position: absolute;
+        background-color: rgb(30, 30, 30);
+        width: 100%;
+        height: 65px;
+        bottom: -10%;
+      }
+      .mobile-footer {
+        display: none;
+      }
+
+      @media only screen and (max-width: 1507px) {
+        .mobile-footer {
+          position: relative;
+          display: block;
+          background-color: rgb(30, 30, 30);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          font-family: "Poppins", sans-serif;
+        }
+
+        .mobile-footer::before {
+          content: "";
+          position: absolute;
+          background-color: rgb(30, 30, 30);
+          width: 100%;
+          height: 65px;
+          bottom: -15%;
+        }
+        .m-foot-img {
+          margin-top: 12px;
+        }
+        .m-foot-img IMG {
+          width: 100px;
+        }
+        .m-foot-img p {
+          color: #646464b6;
+          font-size: 8px;
+          margin-top: -10px;
+        }
+        .m-foot-itm {
+          margin-top: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          justify-content: center;
+          align-items: center;
+          color: #ffffff;
+        }
+        .m-foot-itm h4 {
+          font-size: 12px;
+        }
+        .m-foot-itm p {
+          font-size: 10px;
+          font-weight: 200;
+        }
+        .m-foot-line {
+          width: 92%;
+          height: 14px;
+          border-bottom: 1px solid white;
+        }
+        .m-policy {
+          color: #ffffff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .m-policy a {
+          font-size: 8px;
+          color: #ffffff;
+          text-decoration: none;
+        }
+        .m-copyright {
+          margin-top: 10px;
+          color: #ffffff;
+          font-size: 8px;
+          font-weight: 200;
+        }
+
+        .footer {
+          display: none;
+        }
+
+        .main h1 {
+          font-size: 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <h1>Pirvacy Policy&nbsp;<i class="ri-arrow-right-down-line"></i></h1>
+      <div class="content-center">
+        <div class="content">
+          <p>
+            Welcome to <b>FITYOGI</b>. We are committed to protecting your
+            privacy and ensuring the security of your personal information. This
+            Privacy Policy outlines how we collect, use, disclose, and protect
+            your information when you use our website and services.
+          </p>
+          <br />
+          <p>
+            <b>Information We Collect</b><br />
+            <b>Personal Information:</b>
+          </p>
+          <ul>
+            <li>Name</li>
+            <li>Email address</li>
+            <li>Phone number</li>
+            <li>Any other information you provide directly to us</li>
+          </ul>
+          <br />
+          <p><b>Non-Personal Information:</b></p>
+          <ul>
+            <li>Browser Type</li>
+            <li>Device Type</li>
+            <li>IP address</li>
+            <li>Time and date of visit</li>
+            <li>Any other information that does not identify you personally</li>
+          </ul>
+          <br />
+          <p><b>How We Use Your Information</b></p>
+          <p>
+            We may use the information we collect for various purposes,
+            including:
+          </p>
+          <ul>
+            <li>To provide and maintain our services</li>
+            <li>To process your transactions</li>
+            <li>
+              To communicate with you, including sending newsletters and
+              promotional materials
+            </li>
+            <li>To improve our website and services</li>
+            <li>To understand how users interact with our website</li>
+            <li>To comply with legal obligations</li>
+          </ul>
+          <br />
+          <p><b>Sharing Your Information</b></p>
+          <br />
+          <p>
+            We do not sell, trade, or otherwise transfer your personal
+            information to outside parties.
+          </p>
+          <br />
+          <p><b>Cookies and Tracking Technologies</b></p>
+          <br />
+          <p>
+            We use cookies and similar tracking technologies to track the
+            activity on our website and store certain information. You can
+            instruct your browser to refuse all cookies or to indicate when a
+            cookie is being sent. However, if you do not accept cookies, you may
+            not be able to use some portions of our website.
+          </p>
+          <br />
+          <p><b>Security of Your Information</b></p>
+          <br />
+          <p>
+            We implement a variety of security measures to maintain the safety
+            of your personal information. However, no method of transmission
+            over the internet or electronic storage is 100% secure. While we
+            strive to use commercially acceptable means to protect your personal
+            information, we cannot guarantee its absolute security.
+          </p>
+          <br />
+          <p><b>Changes to This Privacy Policy</b></p>
+          <br />
+          <p>
+            We may update our Privacy Policy from time to time. We will notify
+            you of any changes by posting the new Privacy Policy on this page.
+            You are advised to review this Privacy Policy periodically for any
+            changes
+          </p>
+          <br />
+          <p><b>Contact Us</b></p>
+          <br />
+          <p>
+            If you have any questions about this Privacy Policy, please contact
+            us at:
+          </p>
+
+          <b>Email:&nbsp;&nbsp;</b><a href="mailto:">Send us an Email</a>
+          <br />
+          <p>
+            Thank you for choosing FITYOGI. Your privacy and security are
+            important to us, and we are committed to protecting your personal
+            information.
+          </p>
+        </div>
+      </div>
+      <br /><br />
+    </div>
+
+    <div class="mobile-footer">
+      <div class="m-foot-items">
+        <div class="m-foot-img">
+          <img src="fityogiwhite.png" alt="FITYOGI" /><br />
+          <p>An online Fitness Training Brand</p>
+        </div>
+      </div>
+
+      <div class="m-foot-itm">
+        <h4>SERVICES</h4>
+        <p>Personalized Training Plans</p>
+        <p>Online Plans</p>
+        <p>Nutrition Guidance</p>
+        <p>On-Demand Workouts</p>
+        <p>Trainer Support</p>
+        <p>Affordable Pricing Plans</p>
+      </div>
+      <div class="m-foot-itm">
+        <h4>RESOURCES</h4>
+        <p>Remix Icon</p>
+        <p>Google Fonts</p>
+        <p>Pexels</p>
+        <p>Email JS</p>
+      </div>
+      <div class="m-foot-line"></div>
+      <div class="m-copyright">
+        &copy;2024 FITYOGI, All rights reserved&nbsp;&#8226;&nbsp;Designed and
+        Developed by PRIME
+      </div>
+      <div class="m-policy">
+        <a href="privacypolicy.html">Privacy Policy</a>&nbsp;&#8226;&nbsp;<a
+          href="tnc.html"
+          >Terms & Conditions</a
+        >
+      </div>
+    </div>
+
+    <footer class="footer">
+      <br /><br />
+      <div class="foot-itmes">
+        <div class="img-fott-elem">
+          <img src="fityogiwhite.png" alt="FITYOGI" />
+          <p>An online Fitness Training Brand</p>
+        </div>
+
+        <div class="foot-ths foot-ths-1">
+          <div class="foot-th-1 foot-th-1-pt-1">
+            <h4>SERVICES</h4>
+            <p>Personalized Training Plans</p>
+            <p>Online Plans</p>
+            <p>Nutrition Guidance</p>
+            <p>On-Demand Workouts</p>
+            <p>Trainer Support</p>
+            <p>Affordable Pricing Plans</p>
+          </div>
+
+          <div class="foot-th-1 foot-th-1-pt-2">
+            <h4>RESOURCES</h4>
+            <p>Remix Icon</p>
+            <p>Google Fonts</p>
+            <p>Pexels</p>
+            <p>Email JS</p>
+          </div>
+
+          <div class="foot-th-1 foot-th-1-pt-2">
+            <h4>GET IN TOUCH</h4>
+            <div class="socials">
+              <span class="telegram"><i class="ri-telegram-2-fill"></i></span>
+              <span class="facebook"><i class="ri-facebook-fill"></i></span>
+              <span class="linkedin"><i class="ri-linkedin-fill"></i></span>
+            </div>
+            <br />
+            <h4>SEND A MESSAGE</h4>
+            <form action="">
+              <input type="text" type="email" placeholder="Enter Your Email" />
+              <input type="text" placeholder="Type your Message" />
+              <input type="submit" value="SEND" />
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-line"></div>
+      <br />
+      <div class="copyright">
+        &copy;2024 FITYOGI, All rights reserved&nbsp;&#8226;&nbsp;Designed and
+        Developed by PRIME
+      </div>
+      <div class="policy">
+        <a href="privacypolicy.html">Privacy Policy</a>&nbsp;&#8226;&nbsp;<a
+          href="tnc.html"
+          >Terms & Conditions</a
+        >
+      </div>
+    </footer>
+  </body>
+</html>

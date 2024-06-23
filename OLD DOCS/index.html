@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Exam with Surveillance and Timer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        padding: 20px;
+      }
+      #videoContainer {
+        display: none;
+      }
+      #timer {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+    </style>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("HMDigxSy38Lf2f-BP"); // Replace 'your_public_key' with your actual EmailJS public key
+      })();
+    </script>
+  </head>
+  <body>
+    <div>
+      <h1>Welcome to the Test Exam</h1>
+      <p>
+        Please enter your name, roll number, and answer the following question.
+      </p>
+      <div id="timer">Time remaining: <span id="time">10:00</span></div>
+      <form id="testForm">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" required /><br /><br />
+
+        <label for="rollNumber">Roll Number:</label><br />
+        <input
+          type="text"
+          id="rollNumber"
+          name="rollNumber"
+          required
+        /><br /><br />
+
+        <label for="question1">Question 1:</label><br />
+        <textarea
+          id="question1"
+          name="question1"
+          rows="4"
+          cols="50"
+          required
+        ></textarea
+        ><br /><br />
+
+        <input type="submit" value="Submit" />
+      </form>
+      <div id="videoContainer">
+        <video id="webcam" autoplay playsinline></video>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "v")) {
+          e.preventDefault();
+        }
+      });
+
+      function submitTest() {
+        alert("Time is up or you switched tabs! Your test will be submitted.");
+        sendEmail();
+        // Redirect to thank-you page
+        window.location.href = "thank_you.html"; // Replace with your actual thank-you page URL
+      }
+
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          submitTest();
+        }
+      });
+
+      window.onbeforeunload = function () {
+        return "Are you sure you want to leave? Your test will be submitted.";
+      };
+
+      async function startWebcam() {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          const video = document.getElementById("webcam");
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            video.play();
+          };
+        } catch (err) {
+          console.error("Error accessing webcam: ", err);
+          alert(
+            "Unable to access webcam. Please ensure it is connected and enabled."
+          );
+        }
+      }
+
+      function startTimer(duration, display) {
+        let timer = duration,
+          minutes,
+          seconds;
+        const interval = setInterval(() => {
+          minutes = parseInt(timer / 60, 10);
+          seconds = parseInt(timer % 60, 10);
+
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          display.textContent = minutes + ":" + seconds;
+
+          if (--timer < 0) {
+            clearInterval(interval);
+            submitTest();
+          }
+        }, 1000);
+      }
+
+      function sendEmail() {
+        const form = document.getElementById("testForm");
+        const formData = new FormData(form);
+
+        const emailParams = {
+          name: formData.get("name"),
+          rollNumber: formData.get("rollNumber"),
+          question1: formData.get("question1"),
+          submission_time: new Date().toLocaleString(),
+        };
+
+        emailjs
+          .send("service_l5t8rzl", "template_6sw4oqo", emailParams) // Replace 'your_service_id' and 'your_template_id' with your actual EmailJS service ID and template ID
+          .then(
+            (response) => {
+              console.log(
+                "Email sent successfully!",
+                response.status,
+                response.text
+              );
+            },
+            (err) => {
+              console.error("Failed to send email.", err);
+            }
+          );
+      }
+
+      document
+        .getElementById("testForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          sendEmail();
+          // Redirect to thank-you page
+          window.location.href = "thank_you.html"; // Replace with your actual thank-you page URL
+        });
+
+      window.onload = function () {
+        startWebcam();
+        document.getElementById("videoContainer").style.display = "block";
+        const timeDisplay = document.querySelector("#time");
+        const totalTimeInSeconds = 600; // 10 minutes in seconds
+        startTimer(totalTimeInSeconds, timeDisplay);
+      };
+    </script>
+  </body>
+</html>

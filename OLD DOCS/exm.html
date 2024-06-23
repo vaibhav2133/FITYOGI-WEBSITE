@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Exam with Multiple Questions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fffdf7;
+            padding: 10px;
+            font-family: "Poppins", sans-serif;
+        }
+        nav{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        #videoContainer {
+            display: none;
+        }
+        #timer {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .question-container {
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .question-container.active {
+            display: block;
+            opacity: 1;
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+        .btn-container button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .answer-options {
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init('HMDigxSy38Lf2f-BP'); // Replace 'your_public_key' with your actual EmailJS public key
+        })();
+    </script>
+</head>
+<body>
+    <div>
+        <nav>
+            <h3>PWD Scholarship Exam</h3>
+        </nav>
+        <p>Please enter your name, roll number, and answer the following questions.</p>
+        <div id="timer">Time remaining: <span id="time">10:00</span></div>
+
+        <div class="question-container active" id="question1">
+            <p>Question 1: What is the capital of France?</p>
+            <div class="answer-options">
+                <label><input type="radio" name="q1_answer" value="a"> Paris</label><br>
+                <label><input type="radio" name="q1_answer" value="b"> Madrid</label><br>
+                <label><input type="radio" name="q1_answer" value="c"> Berlin</label><br>
+                <label><input type="radio" name="q1_answer" value="d"> London</label><br>
+            </div>
+        </div>
+
+        <div class="question-container" id="question2">
+            <p>Question 2: Which planet is known as the Red Planet?</p>
+            <div class="answer-options">
+                <label><input type="radio" name="q2_answer" value="a"> Mars</label><br>
+                <label><input type="radio" name="q2_answer" value="b"> Venus</label><br>
+                <label><input type="radio" name="q2_answer" value="c"> Jupiter</label><br>
+                <label><input type="radio" name="q2_answer" value="d"> Saturn</label><br>
+            </div>
+        </div>
+
+        <div class="question-container" id="question3">
+            <p>Question 3: Who wrote the play "Hamlet"?</p>
+            <div class="answer-options">
+                <label><input type="radio" name="q3_answer" value="a"> William Shakespeare</label><br>
+                <label><input type="radio" name="q3_answer" value="b"> Charles Dickens</label><br>
+                <label><input type="radio" name="q3_answer" value="c"> Jane Austen</label><br>
+                <label><input type="radio" name="q3_answer" value="d"> Fyodor Dostoevsky</label><br>
+            </div>
+        </div>
+
+        <div class="question-container" id="question4">
+            <p>Question 4: What is the chemical symbol for water?</p>
+            <div class="answer-options">
+                <label><input type="radio" name="q4_answer" value="a"> H</label><br>
+                <label><input type="radio" name="q4_answer" value="b"> O</label><br>
+                <label><input type="radio" name="q4_answer" value="c"> HO</label><br>
+                <label><input type="radio" name="q4_answer" value="d"> H2O</label><br>
+            </div>
+        </div>
+
+        <div class="question-container" id="question5">
+            <p>Question 5: Who painted the Mona Lisa?</p>
+            <div class="answer-options">
+                <label><input type="radio" name="q5_answer" value="a"> Leonardo da Vinci</label><br>
+                <label><input type="radio" name="q5_answer" value="b"> Michelangelo</label><br>
+                <label><input type="radio" name="q5_answer" value="c"> Pablo Picasso</label><br>
+                <label><input type="radio" name="q5_answer" value="d"> Vincent van Gogh</label><br>
+            </div>
+        </div>
+
+        <div class="btn-container" id="btnContainer">
+            <button id="prevBtn" onclick="showQuestion('prev')">Previous</button>
+            <button id="nextBtn" onclick="showQuestion('next')">Next</button>
+            <button id="submitBtn" style="display: none;" onclick="prepareAndSubmit()">Submit</button>
+        </div>
+
+        <form id="testForm" style="display: none;">
+            <input type="hidden" id="name" name="name" required>
+            <input type="hidden" id="rollNumber" name="rollNumber" required>
+            <input type="hidden" id="submission_time" name="submission_time">
+            <input type="hidden" id="answers" name="answers">
+        </form>
+
+        <div id="videoContainer">
+            <video id="webcam" autoplay playsinline></video>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'v')) {
+                e.preventDefault();
+            }
+        });
+
+        let currentQuestionIndex = 1;
+        const totalQuestions = 5; // Adjust this if you have more questions
+
+        function showQuestion(direction) {
+            const currentQuestion = document.getElementById(`question${currentQuestionIndex}`);
+            currentQuestion.classList.remove('active');
+
+            if (direction === 'next') {
+                currentQuestionIndex++;
+            } else if (direction === 'prev') {
+                currentQuestionIndex--;
+            }
+
+            if (currentQuestionIndex < 1) {
+                currentQuestionIndex = 1;
+            } else if (currentQuestionIndex > totalQuestions) {
+                currentQuestionIndex = totalQuestions;
+            }
+
+            const nextQuestion = document.getElementById(`question${currentQuestionIndex}`);
+            nextQuestion.classList.add('active');
+
+            // Show/hide navigation buttons and submit button
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            if (currentQuestionIndex === 1) {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            } else if (currentQuestionIndex === totalQuestions) {
+                prevBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'inline-block';
+            } else {
+                prevBtn.style.display = 'inline-block';
+                nextBtn.style.display = 'inline-block';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        function submitTest() {
+            alert('Time is up or you switched tabs! Your test will be submitted.');
+            prepareAndSubmit();
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                submitTest();
+            }
+        });
+
+        window.onbeforeunload = function() {
+            return "Are you sure you want to leave? Your test will be submitted.";
+        };
+
+        async function startWebcam() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('webcam');
+                video.srcObject = stream;
+                video.onloadedmetadata = () => {
+                    video.play();
+                };
+            } catch (err) {
+                console.error('Error accessing webcam: ', err);
+                alert('Unable to access webcam. Please ensure it is connected and enabled.');
+            }
+        }
+
+        function startTimer(duration, display) {
+            let timer = duration, minutes, seconds;
+            const interval = setInterval(() => {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+       function prepareAndSubmit() {
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+
+            const name = formData.get('name');
+            const rollNumber = formData.get('rollNumber');
+            const answers = [];
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const answer = formData.get(`q${i}_answer`);
+                answers.push(answer);
+            }
+
+            const emailParams = {
+                name: name,
+                rollNumber: rollNumber,
+                answers: answers.join(', '),
+                submission_time: new Date().toLocaleString()
+            };
+
+            emailjs.send('service_l5t8rzl', 'template_6sw4oqo', emailParams) // Replace 'your_service_id' and 'your_template_id' with your actual EmailJS service ID and template ID
+                .then(response => {
+                    console.log('Email sent successfully!', response.status, response.text);
+                    // Redirect to another page after successful submission
+                    window.location.href = 'thank_you.html'; // Replace 'thank_you.html' with your actual page
+                }, err => {
+                    console.error('Failed to send email.', err);
+                });
+        }
+
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            prepareAndSubmit();
+        });
+
+        window.onload = function() {
+            startWebcam();
+            document.getElementById('videoContainer').style.display = 'block';
+            const timeDisplay = document.querySelector('#time');
+            const totalTimeInSeconds = 600; // 10 minutes
+            startTimer(totalTimeInSeconds, timeDisplay);
+        };
+    </script>
+</body>
+</html>
